@@ -1,0 +1,1412 @@
+<!DOCTYPE html> 
+<html lang="id"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>S-tea🍃 - Minuman Teh Premium</title> 
+    <meta name="description" content="Kedai teh berkualitas dengan berbagai pilihan teh premium. Pesan sekarang dan nikmati pengalaman teh terbaik!"> 
+    <style>
+/* Reset & Base Styles */ 
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+} 
+:root { 
+    --color-background: hsl(35, 20%, 97%); 
+    --color-foreground: hsl(25, 30%, 15%); 
+    --color-primary: hsl(25, 60%, 35%); 
+    --color-primary-foreground: hsl(35, 20%, 97%); 
+    --color-accent: hsl(30, 70%, 50%); 
+    --color-accent-foreground: hsl(0, 0%, 100%); 
+    --color-muted: hsl(35, 25%, 92%); 
+    --color-muted-foreground: hsl(25, 15%, 45%); 
+    --color-border: hsl(35, 20%, 88%); 
+    --color-card: hsl(0, 0%, 100%); 
+    --shadow-soft: 0 4px 20px -4px rgba(0, 0, 0, 0.1); 
+    --shadow-hover: 0 8px 30px -6px rgba(0, 0, 0, 0.15); 
+    --radius: 0.75rem; 
+} 
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+    background-color: var(--color-background); 
+    color: var(--color-foreground); 
+    line-height: 1.6; 
+} 
+
+/* Navigation Bar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.navbar-link {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+    color: var(--color-accent);
+}
+
+.navbar-cart {
+    position: relative;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: transform 0.3s;
+}
+
+.navbar-cart:hover {
+    transform: scale(1.1);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-accent);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Page Container */
+.page {
+    display: none;
+    padding-top: 80px;
+    min-height: 100vh;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Hero Section */ 
+.hero { 
+    position: relative; 
+    min-height: 90vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: linear-gradient(135deg, hsl(25, 60%, 35%) 0%, hsl(30, 70%, 50%) 100%);
+    overflow: hidden; 
+} 
+.hero-overlay { 
+    position: absolute; 
+    inset: 0; 
+    background: linear-gradient(to bottom,  
+        hsla(25, 60%, 35%, 0.8),  
+        hsla(25, 60%, 35%, 0.7),  
+        hsla(35, 20%, 97%, 0.95) 
+    ); 
+} 
+.hero-content { 
+    position: relative; 
+    z-index: 10; 
+    text-align: center; 
+    padding: 2rem; 
+    max-width: 1200px; 
+} 
+.hero-icon { 
+    font-size: 3rem; 
+    margin-bottom: 1.5rem; 
+    animation: bounce 2s infinite; 
+} 
+@keyframes bounce { 
+    0%, 100% { transform: translateY(0); } 
+    50% { transform: translateY(-20px); } 
+} 
+.hero-title { 
+    font-size: clamp(2.5rem, 8vw, 4.5rem); 
+    font-weight: bold; 
+    color: var(--color-primary-foreground); 
+    margin-bottom: 1.5rem; 
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); 
+} 
+.hero-subtitle { 
+    font-size: clamp(1.125rem, 3vw, 1.5rem); 
+    color: rgba(255, 255, 255, 0.9); 
+    margin-bottom: 2rem; 
+    max-width: 42rem; 
+    margin-left: auto; 
+    margin-right: auto; 
+} 
+.hero-buttons { 
+    display: flex; 
+    gap: 1rem; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+} 
+/* Buttons */ 
+.btn { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 0.75rem 2rem; 
+    font-size: 1.125rem; 
+    font-weight: 500; 
+    border-radius: var(--radius); 
+    border: none; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    text-decoration: none; 
+} 
+.btn-hero { 
+    background-color: var(--color-accent); 
+    color: var(--color-accent-foreground); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+} 
+.btn-hero:hover { 
+    background-color: hsl(30, 70%, 45%); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); 
+    transform: translateY(-2px); 
+} 
+.btn-outline { 
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: var(--color-primary-foreground); 
+    border: 2px solid rgba(255, 255, 255, 0.3); 
+    backdrop-filter: blur(10px); 
+} 
+.btn-outline:hover { 
+    background-color: rgba(255, 255, 255, 0.2); 
+    border-color: rgba(255, 255, 255, 0.5); 
+} 
+.btn-primary { 
+    background-color: var(--color-primary); 
+    color: var(--color-primary-foreground); 
+    box-shadow: var(--shadow-soft); 
+} 
+.btn-primary:hover { 
+    background-color: hsl(25, 60%, 30%); 
+}
+.btn-full { 
+    width: 100%; 
+    padding: 1rem; 
+    font-size: 1rem; 
+} 
+/* Sections */ 
+.section { 
+    padding: 5rem 0; 
+} 
+.section-muted { 
+    background-color: var(--color-muted); 
+} 
+.container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 1.5rem; 
+} 
+.section-header { 
+    text-align: center; 
+    margin-bottom: 4rem; 
+} 
+.section-title { 
+    font-size: clamp(2rem, 5vw, 3rem); 
+    font-weight: bold; 
+    color: var(--color-foreground); 
+    margin-bottom: 1rem; 
+} 
+.section-subtitle { 
+    font-size: 1.125rem; 
+    color: var(--color-muted-foreground); 
+    max-width: 42rem; 
+    margin: 0 auto; 
+} 
+/* Features Grid */ 
+.features-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 2rem; 
+    max-width: 1000px; 
+    margin: 0 auto; 
+} 
+.feature-card { 
+    background-color: var(--color-card); 
+    padding: 2rem; 
+    border-radius: var(--radius); 
+    box-shadow: var(--shadow-soft); 
+    border: 1px solid var(--color-border); 
+    transition: all 0.3s ease; 
+    text-align: center; 
+} 
+.feature-card:hover { 
+    box-shadow: var(--shadow-hover); 
+    transform: translateY(-4px); 
+} 
+.feature-icon { 
+    width: 4rem; 
+    height: 4rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 2rem; 
+    background-color: rgba(234, 119, 45, 0.1); 
+    border-radius: 50%; 
+    margin: 0 auto 1.5rem; 
+} 
+.feature-title { 
+    font-size: 1.25rem; 
+    font-weight: 600; 
+    margin-bottom: 0.75rem; 
+    color: var(--color-foreground); 
+} 
+.feature-description { 
+    color: var(--color-muted-foreground); 
+} 
+/* Menu Grid */ 
+.menu-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 2rem; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+} 
+.menu-card { 
+    background-color: var(--color-card); 
+    border-radius: var(--radius); 
+    overflow: hidden; 
+    box-shadow: var(--shadow-soft); 
+    border: 1px solid var(--color-border); 
+    transition: all 0.3s ease; 
+} 
+.menu-card:hover { 
+    box-shadow: var(--shadow-hover); 
+    transform: translateY(-4px); 
+} 
+.menu-image-container { 
+    position: relative; 
+    width: 100%; 
+    height: 16rem; 
+    background: linear-gradient(135deg, var(--color-muted) 0%, var(--color-border) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+} 
+.badge { 
+    position: absolute; 
+    top: 1rem; 
+    right: 1rem; 
+    background-color: var(--color-accent); 
+    color: var(--color-accent-foreground); 
+    padding: 0.25rem 0.75rem; 
+    border-radius: 1rem; 
+    font-size: 0.875rem; 
+    font-weight: 600; 
+} 
+.menu-card-content { 
+    padding: 1.5rem; 
+} 
+.menu-card-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: start; 
+    margin-bottom: 1rem; 
+} 
+.menu-card-title { 
+    font-size: 1.25rem; 
+    font-weight: 600; 
+    margin-bottom: 0.5rem; 
+} 
+.badge-category { 
+    display: inline-block; 
+    padding: 0.25rem 0.5rem; 
+    border: 1px solid var(--color-border); 
+    border-radius: 0.5rem; 
+    font-size: 0.75rem; 
+    color: var(--color-muted-foreground); 
+} 
+.menu-description { 
+    color: var(--color-muted-foreground); 
+    margin-bottom: 1rem; 
+} 
+.menu-price { 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+    color: var(--color-accent); 
+    margin-bottom: 1rem; 
+} 
+
+/* Cards */ 
+.card { 
+    background-color: var(--color-card); 
+    border-radius: var(--radius); 
+    box-shadow: var(--shadow-soft); 
+    border: 1px solid var(--color-border); 
+} 
+.card-header { 
+    padding: 1.5rem; 
+    border-bottom: 1px solid var(--color-border); 
+} 
+.card-title { 
+    font-size: 1.5rem; 
+    font-weight: 600; 
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+} 
+.card-content { 
+    padding: 1.5rem; 
+} 
+
+/* Cart Items */
+.cart-items { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1rem; 
+    max-height: 60vh;
+    overflow-y: auto;
+} 
+.empty-cart { 
+    text-align: center; 
+    color: var(--color-muted-foreground); 
+    padding: 2rem; 
+} 
+.cart-item { 
+    display: flex; 
+    gap: 1rem; 
+    padding: 1rem; 
+    background-color: var(--color-muted); 
+    border-radius: var(--radius); 
+    align-items: center; 
+} 
+.cart-item-image { 
+    font-size: 3rem;
+    flex-shrink: 0; 
+} 
+.cart-item-details { 
+    flex: 1; 
+} 
+.cart-item-name { 
+    font-weight: 600; 
+    margin-bottom: 0.25rem; 
+} 
+.cart-item-price { 
+    font-size: 0.875rem; 
+    color: var(--color-muted-foreground); 
+} 
+.quantity-controls { 
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+    margin-top: 0.5rem; 
+} 
+.quantity-btn { 
+    padding: 0.25rem 0.75rem; 
+    border: 1px solid var(--color-border); 
+    background-color: var(--color-card); 
+    border-radius: 0.375rem; 
+    cursor: pointer; 
+    font-size: 1rem; 
+    transition: all 0.2s; 
+} 
+.quantity-btn:hover { 
+    background-color: var(--color-muted); 
+} 
+.quantity-value { 
+    min-width: 2rem; 
+    text-align: center; 
+    font-weight: 600; 
+} 
+.cart-item-right { 
+    text-align: right; 
+} 
+.cart-item-total { 
+    font-weight: bold; 
+    font-size: 1.125rem; 
+    margin-bottom: 0.5rem; 
+} 
+.remove-btn { 
+    background: none; 
+    border: none; 
+    color: var(--color-muted-foreground); 
+    cursor: pointer; 
+    padding: 0.5rem; 
+    font-size: 1rem; 
+    transition: color 0.2s; 
+} 
+.remove-btn:hover { 
+    color: hsl(0, 84%, 60%); 
+} 
+.total-section { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 1.5rem; 
+    border-top: 2px solid var(--color-border); 
+    background-color: var(--color-muted);
+} 
+.total-label { 
+    font-size: 1.25rem; 
+    font-weight: bold; 
+} 
+.total-amount { 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+    color: var(--color-accent); 
+} 
+
+/* Gallery */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--color-muted) 0%, var(--color-border) 100%);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Testimonials */
+.testimonial-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.testimonial-slider {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.testimonial-card {
+    min-width: 100%;
+    padding: 0 1rem;
+}
+
+.testimonial-content {
+    background-color: var(--color-card);
+    padding: 3rem 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.testimonial-stars {
+    font-size: 1.5rem;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-text {
+    font-size: 1.125rem;
+    color: var(--color-foreground);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.testimonial-avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: var(--shadow-soft);
+}
+
+.testimonial-info {
+    text-align: left;
+}
+
+.testimonial-name {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--color-foreground);
+    margin-bottom: 0.25rem;
+}
+
+.testimonial-role {
+    color: var(--color-muted-foreground);
+    font-size: 0.875rem;
+}
+
+.testimonial-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.testimonial-btn {
+    background-color: var(--color-card);
+    border: 2px solid var(--color-border);
+    color: var(--color-foreground);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+.testimonial-btn:hover:not(:disabled) {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border-color: var(--color-primary);
+    transform: scale(1.1);
+}
+
+.testimonial-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.testimonial-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.testimonial-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.testimonial-dot.active {
+    background-color: var(--color-primary);
+    transform: scale(1.3);
+}
+
+/* Footer */ 
+.footer { 
+    background-color: var(--color-primary); 
+    color: var(--color-primary-foreground); 
+    padding: 3rem 0 1.5rem; 
+} 
+.footer-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 2rem; 
+    margin-bottom: 2rem; 
+} 
+.footer-brand { 
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+    margin-bottom: 1rem; 
+} 
+.footer-icon { 
+    font-size: 2rem; 
+} 
+.footer-title { 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+} 
+.footer-text { 
+    color: rgba(255, 255, 255, 0.8); 
+    line-height: 1.6; 
+} 
+.footer-heading { 
+    font-size: 1.25rem; 
+    font-weight: 600; 
+    margin-bottom: 1rem; 
+} 
+.footer-contact, 
+.footer-hours { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.75rem; 
+    color: rgba(255, 255, 255, 0.8); 
+} 
+.footer-ready { 
+    margin-top: 0.5rem; 
+    color: var(--color-accent); 
+    font-weight: 600; 
+} 
+.footer-bottom { 
+    text-align: center; 
+    padding-top: 2rem; 
+    border-top: 1px solid rgba(255, 255, 255, 0.2); 
+    color: rgba(255, 255, 255, 0.6); 
+} 
+/* Toast Notification */ 
+.toast { 
+    position: fixed; 
+    bottom: 2rem; 
+    right: 2rem; 
+    background-color: var(--color-foreground); 
+    color: var(--color-background); 
+    padding: 1rem 1.5rem; 
+    border-radius: var(--radius); 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); 
+    transform: translateX(400px); 
+    transition: transform 0.3s ease; 
+    z-index: 2000; 
+    max-width: 400px; 
+} 
+.toast.show { 
+    transform: translateX(0); 
+} 
+/* Responsive */ 
+@media (max-width: 768px) {
+    .navbar-menu {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .hero-buttons { 
+        flex-direction: column; 
+    } 
+    .btn { 
+        width: 100%; 
+    } 
+    .menu-grid { 
+        grid-template-columns: 1fr; 
+    } 
+    .features-grid { 
+        grid-template-columns: 1fr; 
+    }
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    .toast { 
+        right: 1rem; 
+        left: 1rem; 
+        max-width: calc(100% - 2rem); 
+    }
+    .testimonial-content {
+        padding: 2rem 1.5rem;
+    }
+} 
+html { 
+    scroll-behavior: smooth; 
+}
+    </style>
+</head> 
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand" onclick="navigateTo('home')">
+                <span>☕</span>
+                <span>S-tea🍃</span>
+            </div>
+            <div class="navbar-menu">
+                <a class="navbar-link active" onclick="navigateTo('home')">Home</a>
+                <a class="navbar-link" onclick="navigateTo('menu')">Menu</a>
+                <a class="navbar-link" onclick="navigateTo('pesan')">Pesan</a>
+                <div class="navbar-cart" onclick="navigateTo('pesan')">
+                    🛒
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <!-- Hero Section --> 
+        <section class="hero"> 
+            <div class="hero-overlay"></div> 
+            <div class="hero-content"> 
+                <div class="hero-icon">☕</div>
+                <h1 class="hero-title">S-tea🍃</h1>
+                <p class="hero-subtitle">Nikmati setiap tegukan minuman segar berkualitas premium, dibuat dengan cinta untuk setiap pelanggan</p>
+                <div class="hero-buttons"> 
+                    <button class="btn btn-hero" onclick="navigateTo('menu')">Lihat Menu Lengkap</button> 
+                    <button class="btn btn-outline" onclick="navigateTo('pesan')">Pesan Sekarang</button> 
+                </div> 
+            </div> 
+        </section> 
+     
+        <!-- About Section --> 
+        <section class="section section-muted"> 
+            <div class="container"> 
+                <div class="section-header"> 
+                    <h2 class="section-title">Tentang Kami</h2> 
+                    <p class="section-subtitle">Selamat datang di Kedai Teh S-TEA 🍃 Tempat di mana setiap tegukan menghadirkan ketenangan dan cerita. Kami menyajikan teh pilihan terbaik — dari racikan tradisional hingga rasa modern yang unik.</p> 
+                </div> 
+                 
+                <div class="features-grid"> 
+                    <div class="feature-card"> 
+                        <div class="feature-icon">❤</div> 
+                        <h3 class="feature-title">Dibuat dengan Cinta</h3> 
+                        <p class="feature-description">Setiap minuman kami dibuat dengan perhatian khusus untuk memberikan pengalaman terbaik</p> 
+                    </div> 
+                     
+                    <div class="feature-card"> 
+                        <div class="feature-icon">🏆</div> 
+                        <h3 class="feature-title">Kualitas Premium</h3> 
+                        <p class="feature-description">Kami hanya menggunakan bahan-bahan berkualitas tinggi dari sumber terpercaya</p> 
+                    </div> 
+                     
+                    <div class="feature-card"> 
+                        <div class="feature-icon">🍃</div> 
+                        <h3 class="feature-title">Bahan Segar</h3> 
+                        <p class="feature-description">Bahan segar dan alami pilihan untuk kesehatan Anda</p> 
+                    </div> 
+                </div> 
+            </div> 
+        </section> 
+
+        <!-- Popular Menu Section --> 
+        <section class="section"> 
+            <div class="container"> 
+                <div class="section-header"> 
+                    <h2 class="section-title">⭐ Menu Populer</h2> 
+                    <p class="section-subtitle">Pilihan favorit pelanggan kami yang paling banyak dipesan</p> 
+                </div> 
+                 
+                <div class="menu-grid" id="popularMenuGrid"></div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-primary" onclick="navigateTo('menu')">Lihat Semua Menu →</button>
+                </div>
+            </div> 
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="section section-muted">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">📸 Galeri Kami</h2>
+                    <p class="section-subtitle">Lihat koleksi foto minuman dan suasana kedai kami yang nyaman</p>
+                </div>
+                
+                <div class="gallery-grid" id="galleryGrid"></div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">💬 Testimoni Pelanggan</h2>
+                    <p class="section-subtitle">Apa kata pelanggan kami tentang S-TEA</p>
+                </div>
+
+                <div class="testimonial-container">
+                    <div class="testimonial-slider" id="testimonialSlider"></div>
+                    
+                    <div class="testimonial-nav">
+                        <button class="testimonial-btn" id="prevBtn" onclick="previousTestimonial()">‹</button>
+                        <div class="testimonial-dots" id="testimonialDots"></div>
+                        <button class="testimonial-btn" id="nextBtn" onclick="nextTestimonial()">›</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- MENU PAGE -->
+    <div id="menu" class="page">
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">📋 Menu Lengkap</h2>
+                    <p class="section-subtitle">Semua pilihan minuman berkualitas premium kami</p>
+                </div>
+                
+                <div class="menu-grid" id="fullMenuGrid"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- PESAN PAGE -->
+    <div id="pesan" class="page">
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🛒 Pesanan Anda</h2>
+                    <p class="section-subtitle">Tinjau pesanan dan kirim ke WhatsApp kami</p>
+                </div>
+                
+                <div class="card" style="max-width: 900px; margin: 0 auto;">
+                    <div class="card-header">
+                        <h3 class="card-title">Keranjang Pesanan</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="cartItems" class="cart-items">
+                            <p class="empty-cart">Keranjang Anda masih kosong. Silakan pilih minuman dari menu.</p>
+                        </div>
+                    </div>
+                    <div class="total-section">
+                        <span class="total-label">Total:</span>
+                        <span class="total-amount" id="totalAmount">Rp 0</span>
+                    </div>
+                    <div style="padding: 1.5rem; border-top: 1px solid var(--color-border);">
+                        <button class="btn btn-primary btn-full" onclick="sendToWhatsApp()" id="orderBtn" disabled>
+                            📱 Pesan via WhatsApp
+                        </button>
+                        <p style="text-align: center; margin-top: 1rem; color: var(--color-muted-foreground); font-size: 0.875rem;">
+                            Pesanan akan dikirim ke WhatsApp admin untuk diproses
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+ 
+    <!-- Footer --> 
+    <footer class="footer"> 
+        <div class="container"> 
+            <div class="footer-grid"> 
+                <div class="footer-section"> 
+                    <div class="footer-brand"> 
+                        <span class="footer-icon">☕</span> 
+                        <h3 class="footer-title">S-TEA</h3> 
+                    </div> 
+                    <p class="footer-text">Kedai teh berkualitas dengan cita rasa istimewa untuk setiap pelanggan kami</p> 
+                </div> 
+ 
+                <div class="footer-section"> 
+                    <h4 class="footer-heading">Kontak Kami</h4> 
+                    <div class="footer-contact"> 
+                        <p>📍 Jl. Dr. Soeparno No.29, Purwokerto Wetan</p> 
+                        <p>📞 +62 812-3456-7890</p> 
+                        <p>✉ S-TEA@gmail.com</p> 
+                    </div> 
+                </div> 
+ 
+                <div class="footer-section"> 
+                    <h4 class="footer-heading">Jam Operasional</h4> 
+                    <div class="footer-hours"> 
+                        <p>Senin - Jumat: 08.00 - 15.00</p> 
+                        <p>Sabtu - Minggu: 07.00 - 14.00</p> 
+                        <p class="footer-ready">Siap melayani pesanan Anda!</p> 
+                    </div> 
+                </div> 
+            </div> 
+ 
+            <div class="footer-bottom"> 
+                <p>Copyright &copy; 2025 S-TEA</p> 
+            </div> 
+        </div> 
+    </footer> 
+ 
+    <!-- Toast Notification --> 
+    <div id="toast" class="toast"></div> 
+ 
+    <script>
+// NOMOR WHATSAPP ADMIN (ganti dengan nomor Anda)
+const ADMIN_WHATSAPP = "6282133736177"; // Format: 62xxx (tanpa +)
+
+// Menu Data
+const menuItems = [
+    {
+        id: 1,
+        name: "Original",
+        description: "Teh manis dengan es",
+        price: 2500,
+        emoji: "🍵",
+        category: "Teh",
+        popular: true
+    },
+    {
+        id: 2,
+        name: "Thai Tea",
+        description: "Teh Thailand manis dengan aroma rempah dan susu yang creamy",
+        price: 5000,
+        emoji: "🧋",
+        category: "Teh",
+        popular: true
+    },
+    {
+        id: 3,
+        name: "Lemon Tea",
+        description: "Teh segar dengan rasa asam manis dari lemon",
+        price: 5000,
+        emoji: "🍋",
+        category: "Teh"
+    },
+    {
+        id: 4,
+        name: "Milk Tea",
+        description: "Teh yang dicampur susu dengan rasa manis dan lembut",
+        price: 6000,
+        emoji: "🥛",
+        category: "Teh"
+    },
+    {
+        id: 5,
+        name: "Green Tea",
+        description: "Teh hijau yang creamy dengan rasa khas yang ringan",
+        price: 7500,
+        emoji: "🍃",
+        category: "Teh",
+        popular: true
+    },
+    {
+        id: 6,
+        name: "Choco Milk",
+        description: "Susu manis dengan rasa cokelat yang lembut",
+        price: 7500,
+        emoji: "🍫",
+        category: "Milkshake",
+        popular: true
+    },
+    {
+        id: 7,
+        name: "Cappucino",
+        description: "Kopi dengan foam susu yang creamy dan lembut",
+        price: 8000,
+        emoji: "☕",
+        category: "Kopi"
+    },
+    {
+        id: 8,
+        name: "Red Velvet",
+        description: "Minuman creamy berwarna merah dengan rasa manis",
+        price: 8000,
+        emoji: "❤️",
+        category: "Milkshake"
+    },
+    {
+        id: 9,
+        name: "Hazelnut",
+        description: "Minuman creamy dengan rasa kacang yang lembut",
+        price: 8000,
+        emoji: "🌰",
+        category: "Milkshake"
+    }
+];
+
+// Gallery Data
+const galleryItems = [
+    { id: 1, emoji: "🍵", caption: "Original Tea - Kesegaran Alami" },
+    { id: 2, emoji: "🧋", caption: "Thai Tea - Cita Rasa Thailand" },
+    { id: 3, emoji: "🍃", caption: "Green Tea - Sehat & Segar" },
+    { id: 4, emoji: "🥛", caption: "Milk Tea - Creamy & Lembut" },
+    { id: 5, emoji: "🍫", caption: "Choco Milk - Manis Cokelat" },
+    { id: 6, emoji: "❤️", caption: "Red Velvet - Mewah & Lezat" }
+];
+
+// Testimonials Data
+const testimonials = [
+    {
+        id: 1,
+        name: "Siti Nurhaliza",
+        role: "Pelanggan Setia",
+        avatar: "S",
+        rating: 5,
+        text: "Thai Tea di S-TEA benar-benar the best! Rasanya authentic dan harganya sangat terjangkau. Sudah jadi langganan saya setiap hari!"
+    },
+    {
+        id: 2,
+        name: "Budi Santoso",
+        role: "Mahasiswa",
+        avatar: "B",
+        rating: 5,
+        text: "Tempatnya nyaman banget buat nongkrong sambil ngerjain tugas. Green Tea-nya seger dan bikin fokus. Recommended!"
+    },
+    {
+        id: 3,
+        name: "Rina Permata",
+        role: "Ibu Rumah Tangga",
+        avatar: "R",
+        rating: 5,
+        text: "Anak-anak suka banget sama Choco Milk-nya. Pelayanannya ramah dan minumannya selalu fresh. Pasti balik lagi!"
+    },
+    {
+        id: 4,
+        name: "Ahmad Fauzi",
+        role: "Karyawan",
+        avatar: "A",
+        rating: 5,
+        text: "Cappucino di sini mantap! Pas buat menemani kerja. Harga terjangkau dan kualitas premium. Two thumbs up!"
+    },
+    {
+        id: 5,
+        name: "Dewi Lestari",
+        role: "Pengusaha",
+        avatar: "D",
+        rating: 5,
+        text: "S-TEA selalu jadi pilihan untuk meeting santai dengan klien. Suasananya cozy dan minumannya enak semua!"
+    }
+];
+
+// Cart Management
+let cart = [];
+let currentTestimonial = 0;
+let currentPage = 'home';
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    loadCart();
+    renderPopularMenu();
+    renderFullMenu();
+    renderGallery();
+    renderTestimonials();
+    updateCartBadge();
+    updateOrderButton();
+});
+
+// Navigation
+function navigateTo(page) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    
+    // Show selected page
+    document.getElementById(page).classList.add('active');
+    
+    // Update navbar links
+    document.querySelectorAll('.navbar-link').forEach(link => link.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    currentPage = page;
+    
+    // Render cart if on pesan page
+    if (page === 'pesan') {
+        renderCart();
+    }
+}
+
+// Render Popular Menu (Home Page)
+function renderPopularMenu() {
+    const grid = document.getElementById('popularMenuGrid');
+    const popularItems = menuItems.filter(item => item.popular);
+    
+    grid.innerHTML = popularItems.map(item => createMenuCard(item)).join('');
+}
+
+// Render Full Menu (Menu Page)
+function renderFullMenu() {
+    const grid = document.getElementById('fullMenuGrid');
+    grid.innerHTML = menuItems.map(item => createMenuCard(item)).join('');
+}
+
+// Create Menu Card HTML
+function createMenuCard(item) {
+    return `
+        <div class="menu-card">
+            <div class="menu-image-container">
+                <div class="menu-image">${item.emoji}</div>
+                ${item.popular ? '<span class="badge">Populer</span>' : ''}
+            </div>
+            <div class="menu-card-content">
+                <div class="menu-card-header">
+                    <div>
+                        <h3 class="menu-card-title">${item.name}</h3>
+                        <span class="badge-category">${item.category}</span>
+                    </div>
+                </div>
+                <p class="menu-description">${item.description}</p>
+                <div class="menu-price">Rp ${formatPrice(item.price)}</div>
+                <button class="btn btn-primary btn-full" onclick="addToCart(${item.id})">
+                    ➕ Tambah ke Pesanan
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Render Gallery
+function renderGallery() {
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = galleryItems.map(item => `
+        <div class="gallery-item">
+            ${item.emoji}
+        </div>
+    `).join('');
+}
+
+// Render Testimonials
+function renderTestimonials() {
+    const slider = document.getElementById('testimonialSlider');
+    const dotsContainer = document.getElementById('testimonialDots');
+    
+    slider.innerHTML = testimonials.map(t => {
+        const stars = '⭐'.repeat(t.rating);
+        return `
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="testimonial-stars">${stars}</div>
+                    <p class="testimonial-text">"${t.text}"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">${t.avatar}</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">${t.name}</div>
+                            <div class="testimonial-role">${t.role}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    dotsContainer.innerHTML = testimonials.map((_, i) => 
+        `<button class="testimonial-dot ${i === 0 ? 'active' : ''}" onclick="goToTestimonial(${i})"></button>`
+    ).join('');
+    
+    updateTestimonialButtons();
+}
+
+// Testimonial Navigation
+function nextTestimonial() {
+    if (currentTestimonial < testimonials.length - 1) {
+        currentTestimonial++;
+        updateTestimonialSlider();
+    }
+}
+
+function previousTestimonial() {
+    if (currentTestimonial > 0) {
+        currentTestimonial--;
+        updateTestimonialSlider();
+    }
+}
+
+function goToTestimonial(index) {
+    currentTestimonial = index;
+    updateTestimonialSlider();
+}
+
+function updateTestimonialSlider() {
+    const slider = document.getElementById('testimonialSlider');
+    slider.style.transform = `translateX(-${currentTestimonial * 100}%)`;
+    
+    document.querySelectorAll('.testimonial-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentTestimonial);
+    });
+    
+    updateTestimonialButtons();
+}
+
+function updateTestimonialButtons() {
+    document.getElementById('prevBtn').disabled = currentTestimonial === 0;
+    document.getElementById('nextBtn').disabled = currentTestimonial === testimonials.length - 1;
+}
+
+// Add to Cart
+function addToCart(itemId) {
+    const item = menuItems.find(m => m.id === itemId);
+    const existingItem = cart.find(c => c.id === itemId);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ ...item, quantity: 1 });
+    }
+    
+    saveCart();
+    updateCartBadge();
+    updateOrderButton();
+    showToast(`${item.name} ditambahkan ke pesanan`);
+    
+    if (currentPage === 'pesan') {
+        renderCart();
+    }
+}
+
+// Remove from Cart
+function removeFromCart(itemId) {
+    cart = cart.filter(item => item.id !== itemId);
+    saveCart();
+    renderCart();
+    updateCartBadge();
+    updateOrderButton();
+    showToast('Item dihapus dari pesanan');
+}
+
+// Update Quantity
+function updateQuantity(itemId, change) {
+    const item = cart.find(c => c.id === itemId);
+    if (item) {
+        item.quantity = Math.max(1, item.quantity + change);
+        saveCart();
+        renderCart();
+        updateCartBadge();
+    }
+}
+
+// Render Cart
+function renderCart() {
+    const container = document.getElementById('cartItems');
+    const totalElement = document.getElementById('totalAmount');
+    
+    if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-cart">Keranjang Anda masih kosong. <a href="#" onclick="navigateTo(\'menu\'); return false;" style="color: var(--color-accent)">Pilih menu di sini</a></p>';
+        totalElement.textContent = 'Rp 0';
+        return;
+    }
+    
+    let total = 0;
+    container.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        return `
+            <div class="cart-item">
+                <div class="cart-item-image">${item.emoji}</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">Rp ${formatPrice(item.price)}</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                        <span class="quantity-value">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-right">
+                    <div class="cart-item-total">Rp ${formatPrice(itemTotal)}</div>
+                    <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Hapus">🗑</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    totalElement.textContent = `Rp ${formatPrice(total)}`;
+}
+
+// Send to WhatsApp
+function sendToWhatsApp() {
+    if (cart.length === 0) {
+        showToast('Keranjang kosong!', true);
+        return;
+    }
+    
+    let message = '*PESANAN BARU S-TEA 🍃*\n\n';
+    message += '*Detail Pesanan:*\n';
+    message += '━━━━━━━━━━━━━━━\n';
+    
+    let total = 0;
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        message += `${index + 1}. ${item.name}\n`;
+        message += `   ${item.quantity}x Rp ${formatPrice(item.price)} = Rp ${formatPrice(itemTotal)}\n\n`;
+    });
+    
+    message += '━━━━━━━━━━━━━━━\n';
+    message += `*TOTAL: Rp ${formatPrice(total)}*\n\n`;
+    message += '_Terima kasih telah memesan di S-TEA! 🙏_';
+    
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+    
+    showToast('Mengarahkan ke WhatsAp');
+}
+
+// Update Cart Badge
+function updateCartBadge() {
+    const badge = document.getElementById('cartBadge');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    badge.textContent = totalItems;
+    badge.style.display = totalItems > 0 ? 'flex' : 'none';
+}
+
+// Update Order Button
+function updateOrderButton() {
+    const btn = document.getElementById('orderBtn');
+    if (btn) {
+        btn.disabled = cart.length === 0;
+    }
+}
+
+// Save/Load Cart
+function saveCart() {
+    localStorage.setItem('steaCart', JSON.stringify(cart));
+}
+
+function loadCart() {
+    const saved = localStorage.getItem('steaCart');
+    if (saved) {
+        cart = JSON.parse(saved);
+    }
+}
+
+// Utilities
+function formatPrice(price) {
+    return price.toLocaleString('id-ID');
+}
+
+function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.backgroundColor = isError ? 'hsl(0, 84%, 60%)' : 'var(--color-foreground)';
+    toast.classList.add('show');
+    
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+    </script>
+</body> 
+</html>
